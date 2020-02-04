@@ -216,7 +216,7 @@ set nocompatible
             set spell noci nosi noai nolist noshowmode noshowcmd 
             set signcolumn="no"
             set complete+=s
-            set bg=light
+            set bg=dark
             colorscheme solarized
         endfunction
 
