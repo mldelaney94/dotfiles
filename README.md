@@ -1,7 +1,7 @@
 # dotfiles
 Dotfile configurations
 
-# vim
+# New computer
 for all of my vim files
 
 Step by step guide for myself on how to get back to where I am if I swap computers:
