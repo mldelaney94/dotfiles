@@ -26,6 +26,15 @@
             {
                 "before": ["<leader>", "e"],
                 "commands": [":tabe C:/Users/Matthew/AppData/Roaming/Code/User/settings.json"]
+            },
+            //allows for navigating wrapped lines in vim
+            {
+                "before": ["j"],
+                "after": ["g", "j"]
+            },
+            {
+                "before": ["k"],
+                "after": ["g", "k"]
             }
         ],
         "vim.handleKeys": {
