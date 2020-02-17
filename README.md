@@ -17,6 +17,7 @@ Get Vundle
 coc, requires node.js and visual studio c++ tools, when complete, if javascript error, call :call coc#util#install()
 
 install python3 and add to path
+install NUMpy
 
 install mingw for C and C++
 
@@ -27,3 +28,5 @@ make sure all this is added to path
 should have choco by now run choco install make to get make
 
 Then you can make universal-ctags
+
+set PYTHONIOENCODING=utf8 think of this
