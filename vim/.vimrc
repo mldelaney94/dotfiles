@@ -44,6 +44,7 @@ set nocompatible
 
     set clipboard=unnamed " allows copying and pasting to and from vim
 
+
 " => UI Config
     set number relativenumber
     set cursorline " enables line highlighting
@@ -112,7 +113,6 @@ set nocompatible
 
     " Tmux-navigator settings
 
-
 " => Remappings
 
     let mapleader=',' " Where you see <leader> in remaps, replace mentally with this
@@ -120,42 +120,23 @@ set nocompatible
     " allows for navigating wrapped lines with default controls, look up gj and gk's use
     nnoremap j gj
     nnoremap k gk
-    " change split by pressing ctrl+j rather than ctrl+w then j
-    nnoremap <C-J> <C-W><C-J>
-    nnoremap <C-K> <C-W><C-K>
-    nnoremap <C-L> <C-W><C-L>
-    nnoremap <C-H> <C-W><C-H>
-    nnoremap <leader><space> :nohlsearch<CR>| " <leader> followed by space turns off highlights from previous search
 
+    nnoremap <leader><space> :nohlsearch<CR>| " <leader> followed by space turns off highlights from previous search
     map <leader>e :tabe ~/.vimrc<CR>| " Quick open vimrc
     map <leader>t :TagbarToggle<CR>| " Toggles tagbar
     map <leader>n :Lexplore<CR>| " Toggles load/leave netrw - Lexplore takes up whole left side
 
-    "
-    " When moving between windows, VIM will go right until no more right
-    " windows, and then stay there, this allows it to wrap around to the first
-    " window on the left
-    "
-    function! s:GotoNextWindow( direction, count )
-      let l:prevWinNr = winnr()
-      execute a:count . 'wincmd' a:direction
-      return winnr() != l:prevWinNr
-    endfunction
+    " Ctrl j to move between splits.
+    " Overwritten if bind is used for TMUX splits.
+    " Pressing c-j at end of split will not go
+    " to first split
+    nnoremap <C-J> <C-W><C-J>
+    nnoremap <C-K> <C-W><C-K>
+    nnoremap <C-L> <C-W><C-L>
+    nnoremap <C-H> <C-W><C-H>
 
-    function! s:JumpWithWrap( direction, opposite )
-      if ! s:GotoNextWindow(a:direction, v:count1)
-        call s:GotoNextWindow(a:opposite, 999)
-      endif
-    endfunction
-
-    nnoremap <silent> <C-w>h :<C-u>call <SID>JumpWithWrap('h', 'l')<CR>
-    nnoremap <silent> <C-w>j :<C-u>call <SID>JumpWithWrap('j', 'k')<CR>
-    nnoremap <silent> <C-w>k :<C-u>call <SID>JumpWithWrap('k', 'j')<CR>
-    nnoremap <silent> <C-w>l :<C-u>call <SID>JumpWithWrap('l', 'h')<CR>
-    nnoremap <silent> <C-w><Left> :<C-u>call <SID>JumpWithWrap('h', 'l')<CR>
-    nnoremap <silent> <C-w><Down> :<C-u>call <SID>JumpWithWrap('j', 'k')<CR>
-    nnoremap <silent> <C-w><Up> :<C-u>call <SID>JumpWithWrap('k', 'j')<CR>
-    nnoremap <silent> <C-w><Right> :<C-u>call <SID>JumpWithWrap('l', 'h')<CR>
+    " Wq is not automatically mapped, map to wq
+    command Wq wq
 
     " => COC
         " Use tab for trigger completion with coc
@@ -248,3 +229,31 @@ set nocompatible
 
         command! ProseMode call ProseMode()
         nmap <leader>p :ProseMode<CR>
+
+
+    "
+    " When moving between windows, VIM will go right until no more right
+    " windows, and then stay there, this allows it to wrap around to the first
+    " window on the left
+    " ATM doesn't work with C-J remappings
+    "
+    function! s:GotoNextWindow( direction, count )
+      let l:prevWinNr = winnr()
+      execute a:count . 'wincmd' a:direction
+      return winnr() != l:prevWinNr
+    endfunction
+
+    function! s:JumpWithWrap( direction, opposite )
+      if ! s:GotoNextWindow(a:direction, v:count1)
+        call s:GotoNextWindow(a:opposite, 999)
+      endif
+    endfunction
+
+    nnoremap <silent> <C-w>h :<C-u>call <SID>JumpWithWrap('h', 'l')<CR>
+    nnoremap <silent> <C-w>j :<C-u>call <SID>JumpWithWrap('j', 'k')<CR>
+    nnoremap <silent> <C-w>k :<C-u>call <SID>JumpWithWrap('k', 'j')<CR>
+    nnoremap <silent> <C-w>l :<C-u>call <SID>JumpWithWrap('l', 'h')<CR>
+    nnoremap <silent> <C-w><Left> :<C-u>call <SID>JumpWithWrap('h', 'l')<CR>
+    nnoremap <silent> <C-w><Down> :<C-u>call <SID>JumpWithWrap('j', 'k')<CR>
+    nnoremap <silent> <C-w><Up> :<C-u>call <SID>JumpWithWrap('k', 'j')<CR>
+    nnoremap <silent> <C-w><Right> :<C-u>call <SID>JumpWithWrap('l', 'h')<CR>
