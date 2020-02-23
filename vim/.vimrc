@@ -135,8 +135,9 @@ set nocompatible
     nnoremap <C-L> <C-W><C-L>
     nnoremap <C-H> <C-W><C-H>
 
-    " Wq is not automatically mapped, map to wq
-    command Wq wq
+    " Wq and Q are common accidental (and unmapped) misspellings
+    command! Wq wq
+    command! Q q
 
     " => COC
         " Use tab for trigger completion with coc
