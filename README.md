@@ -32,3 +32,7 @@ Then you can make universal-ctags
 set PYTHONIOENCODING=utf8 think of this. https://stackoverflow.com/questions/3578685/how-to-display-utf-8-in-windows-console/3580165#3580165 related SO
 
 https://www.quora.com/Why-doesnt-Microsoft-use-UTF-8-on-Windows-10 change region settings to use UNICODE UTF-8 (potentially change back)
+
+Add global gitignore file
+touch ~/.gitignore
+git config --global core.excludesFile ~/.gitignore
