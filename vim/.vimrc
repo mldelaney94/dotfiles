@@ -44,6 +44,9 @@ set nocompatible
 
     set clipboard=unnamed " allows copying and pasting to and from vim
 
+    set undofile " Maintains undo history between settings
+    set undodir=~/.vim/undodir " set where to save undos
+
 
 " => UI Config
     set number relativenumber
@@ -135,9 +138,8 @@ set nocompatible
     nnoremap <C-L> <C-W><C-L>
     nnoremap <C-H> <C-W><C-H>
 
-    " Wq and Q are common accidental (and unmapped) misspellings
+    " Wq is not automatically mapped, map to wq
     command! Wq wq
-    command! Q q
 
     " => COC
         " Use tab for trigger completion with coc
