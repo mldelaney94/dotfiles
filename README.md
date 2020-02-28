@@ -19,7 +19,7 @@ coc, requires node.js and visual studio c++ tools, when complete, if javascript 
 install python3 and add to path
 install NUMpy
 
-install mingw for C and C++
+install mingw for C and C++ 64 bit (64 bit is important)
 
 install jdk
 
