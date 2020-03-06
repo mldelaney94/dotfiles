@@ -10,7 +10,7 @@ get colemak, run file for registry changing capslock to backspace
 
 Get Git bash and setup Git (SSH key)
 
-Add gvim to path
+Add gvim to path, check python filetype plugin for colorcolumn=79
 
 Get Vundle
 
