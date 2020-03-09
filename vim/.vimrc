@@ -8,7 +8,6 @@ set nocompatible
     " let Vundle manage Vundle, required
     Plugin 'VundleVim/Vundle.vim'
     Plugin 'morhetz/gruvbox'
-    Plugin 'altercation/vim-colors-solarized'
     Plugin 'vim-airline/vim-airline'
     Plugin 'vim-airline/vim-airline-themes'
     Plugin 'majutsushi/tagbar'
@@ -17,7 +16,6 @@ set nocompatible
     Plugin 'tpope/vim-fugitive'
     Plugin 'universal-ctags/ctags'
     Plugin 'christoomey/vim-tmux-navigator'
-    Plugin 'junegunn/goyo.vim'
     " All of your Plugins must be added before the following line
     call vundle#end()            " required
     filetype plugin indent on    " required
@@ -47,7 +45,6 @@ set nocompatible
     set undofile " Maintains undo history between settings
     set undodir=~/.vim/undodir " set where to save undos
 
-
 " => UI Config
     set number relativenumber
     set cursorline " enables line highlighting
@@ -69,50 +66,50 @@ set nocompatible
     set ignorecase " case insensitive searching
 
     " Airline settings
-    let g:airline#extensions#tabline#enabled=1 " applies airline style to tabs (esp. nice in gvim)
-    let g:airline#extensions#branch#empty_message='NBD' " fugitive functionality: no branch detected
-    let g:airline#extensions#syntastic#enabled=0 " disables syntastic integration - superfluous
-    " controls layout, a=mode, b=branch, c=filepath, x=fileType, y=encoding, z=currPosition
-    let g:airline#extensions#default#layout=[
-        \ [ 'a', 'b', 'z', 'c' ],
-        \ [ 'y' ]
-        \ ]
-    set noshowmode " stops --INSERT-- from appearing beneath airline
+        let g:airline#extensions#tabline#enabled=1 " applies airline style to tabs (esp. nice in gvim)
+        let g:airline#extensions#branch#empty_message='NBD' " fugitive functionality: no branch detected
+        let g:airline#extensions#syntastic#enabled=0 " disables syntastic integration - superfluous
+        " controls layout, a=mode, b=branch, c=filepath, x=fileType, y=encoding, z=currPosition
+        let g:airline#extensions#default#layout=[
+            \ [ 'a', 'b', 'z', 'c' ],
+            \ [ 'y' ]
+            \ ]
+        set noshowmode " stops --INSERT-- from appearing beneath airline
 
     " Tagbar settings
-    let g:tagbar_compact=1 " gets rid of lines above tagbar
-    let g:tagbar_autofocus=1 " autofocus on open
+        let g:tagbar_compact=1 " gets rid of lines above tagbar
+        let g:tagbar_autofocus=1 " autofocus on open
 
     " netrw settings
-    let g:netrw_browse_split=3 " opens files in a new tab
-    let g:netrw_liststyle=3 " tree visual style
-    let g:netrw_banner=0 " removes banner
-    let g:netrw_altv=1 " netrw, on Vexplore, will open on the left
-    let g:netrw_winsize=15 " split only takes up 15% of the screen
-    let g:netrw_sort_by=" name" " sorts alphabetically and by case and type, files, folders then folders with a Capital
-    let g:netrw_sort_direction=" reverse"
+        let g:netrw_browse_split=3 " opens files in a new tab
+        let g:netrw_liststyle=3 " tree visual style
+        let g:netrw_banner=0 " removes banner
+        let g:netrw_altv=1 " netrw, on Vexplore, will open on the left
+        let g:netrw_winsize=15 " split only takes up 15% of the screen
+        let g:netrw_sort_by=" name" " sorts alphabetically and by case and type, files, folders then folders with a Capital
+        let g:netrw_sort_direction=" reverse"
 
     " coc settings
-    set hidden " when there are unwritten changes to a file, hidden means it will not bug you to save them, instead saving the changes to a buffer
-    set nobackup " Some servers have issues with backup files, see #649, also means we will never accidentally upload a backup file to git
-    set nowritebackup
-    set cmdheight=2 " Better display for messages
-    set updatetime=300 " You will have bad experience for diagnostic messages when it's default 4000.
-    set shortmess+=c " don't give ins-completion-menu messages.
-    set signcolumn=yes " a column giving contextual information, like an IDE error column
+        set hidden " when there are unwritten changes to a file, hidden means it will not bug you to save them, instead saving the changes to a buffer
+        set nobackup " Some servers have issues with backup files, see #649, also means we will never accidentally upload a backup file to git
+        set nowritebackup
+        set cmdheight=2 " Better display for messages
+        set updatetime=300 " You will have bad experience for diagnostic messages when it's default 4000.
+        set shortmess+=c " don't give ins-completion-menu messages.
+        set signcolumn=yes " a column giving contextual information, like an IDE error column
 
     " syntastic settings
-    let g:syntastic_auto_loc_list=1 " opens automatically on detection, closes when none are detected
-    let g:syntastic_check_on_open=1 " runs checks on open
-    let g:syntastic_check_on_wq=1 " checks for errors on wq
-    let g:syntastic_echo_current_error=0 " disables command window
-    let g:syntastic_enable_balloons=0 " disables balloon on mouse hover
-    " makes the height of display equal min of numErrors or 3:
-    function! SyntasticCheckHook(errors)
-        if !empty(a:errors)
-            let g:syntastic_loc_list_height=min([len(a:errors), 3])
-        endif
-    endfunction
+        let g:syntastic_auto_loc_list=1 " opens automatically on detection, closes when none are detected
+        let g:syntastic_check_on_open=1 " runs checks on open
+        let g:syntastic_check_on_wq=1 " checks for errors on wq
+        let g:syntastic_echo_current_error=0 " disables command window
+        let g:syntastic_enable_balloons=0 " disables balloon on mouse hover
+        " makes the height of display equal min of numErrors or 3:
+        function! SyntasticCheckHook(errors)
+            if !empty(a:errors)
+                let g:syntastic_loc_list_height=min([len(a:errors), 3])
+            endif
+        endfunction
 
     " Tmux-navigator settings
 
@@ -219,22 +216,6 @@ set nocompatible
         autocmd Filetype netrw vnoremap <buffer> <silent> <expr> T ":call NetrwOpenMultiTab(" . line(".") . "," . (( v:count == 0) ? '' : v:count) . ")\<CR>"
         augroup END
 
-    " => Go-yo
-        " sets up 
-        function! ProseMode()
-            call goyo#execute(0, [])
-            set spell noci nosi noai nolist noshowmode noshowcmd 
-            set signcolumn="no"
-            set complete+=s
-            set bg=dark
-            colorscheme solarized
-        endfunction
-
-        command! ProseMode call ProseMode()
-        nmap <leader>p :ProseMode<CR>
-
-
-    "
     " When moving between windows, VIM will go right until no more right
     " windows, and then stay there, this allows it to wrap around to the first
     " window on the left
