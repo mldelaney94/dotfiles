@@ -33,6 +33,8 @@ set PYTHONIOENCODING=utf8 think of this. https://stackoverflow.com/questions/357
 
 https://www.quora.com/Why-doesnt-Microsoft-use-UTF-8-on-Windows-10 change region settings to use UNICODE UTF-8 (potentially change back)
 
+Add python.vim to C:\Users\Matthew\.vim\ftplugin
+
 Add global gitignore file
 touch ~/.gitignore
 git config --global core.excludesFile ~/.gitignore
