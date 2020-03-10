@@ -60,6 +60,8 @@ set nocompatible
     set smartindent " adds automatic indenting after things like {
     set cpoptions+=n " when text wraps, does not highlight indents - create some wrapped text to see - 'compatible-options'
     set belloff=all " disables bell sound
+    set laststatus=2 " status bar always enabled in last window
+    set autoread " when a change is detected to a file outside of the VIM session, auto reload
 
     set hlsearch " turns search highlighting on
     set incsearch " search as characters are entered
@@ -71,9 +73,11 @@ set nocompatible
         let g:airline#extensions#syntastic#enabled=0 " disables syntastic integration - superfluous
         " controls layout, a=mode, b=branch, c=filepath, x=fileType, y=encoding, z=currPosition
         let g:airline#extensions#default#layout=[
-            \ [ 'a', 'b', 'z', 'c' ],
-            \ [ 'y' ]
+            \ [ 'a', 'b', 'z', 'x' ],
+            \ [ 'y', 'c' ]
             \ ]
+        let g:airline#extensions#tagbar#enabled=1 " enables tagbar functionality
+        let g:airline#extensions#tagbar#flags = 'f' " Displays the full hierarchy of the tag in airline
         set noshowmode " stops --INSERT-- from appearing beneath airline
 
     " Tagbar settings
@@ -84,8 +88,8 @@ set nocompatible
         let g:netrw_browse_split=3 " opens files in a new tab
         let g:netrw_liststyle=3 " tree visual style
         let g:netrw_banner=0 " removes banner
-        let g:netrw_altv=1 " netrw, on Vexplore, will open on the left
-        let g:netrw_winsize=15 " split only takes up 15% of the screen
+        let g:netrw_altv=1 " netrw, on Vexplore, will open on the right 
+        let g:netrw_winsize=17 " split only takes up 17% of the screen
         let g:netrw_sort_by=" name" " sorts alphabetically and by case and type, files, folders then folders with a Capital
         let g:netrw_sort_direction=" reverse"
 
