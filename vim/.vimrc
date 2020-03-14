@@ -141,6 +141,8 @@ set nocompatible
 
     " Wq is not automatically mapped, map to wq
     command! Wq wq
+    " Same for Q
+    command! Q q
 
     " => COC
         " Use tab for trigger completion with coc
