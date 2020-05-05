@@ -62,6 +62,7 @@ set nocompatible
     set belloff=all " disables bell sound
     set laststatus=2 " status bar always enabled in last window
     set autoread " when a change is detected to a file outside of the VIM session, auto reload
+    set spell " enables spell-checking
 
     set hlsearch " turns search highlighting on
     set incsearch " search as characters are entered
@@ -78,6 +79,7 @@ set nocompatible
             \ ]
         let g:airline#extensions#tagbar#enabled=1 " enables tagbar functionality
         let g:airline#extensions#tagbar#flags = 'f' " Displays the full hierarchy of the tag in airline
+        let g:airline_detect_spell=0 " disables adding 'spelllang' to airline
         set noshowmode " stops --INSERT-- from appearing beneath airline
 
     " Tagbar settings
@@ -139,10 +141,14 @@ set nocompatible
     nnoremap <C-L> <C-W><C-L>
     nnoremap <C-H> <C-W><C-H>
 
-    " Wq is not automatically mapped, map to wq
-    command! Wq wq
-    " Same for Q
-    command! Q q
+    " I regularly make mistakes when exiting or saving. These attempt to stop
+    " that
+        " Wq is not automatically mapped, map to update
+        command! Wq wq
+        " Same for Q
+        command! Q q
+        " map W to update
+        command! W w
 
     " => COC
         " Use tab for trigger completion with coc
