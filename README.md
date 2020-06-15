@@ -1,5 +1,6 @@
 # dotfiles
-Dotfile configurations
+Repo contains my dotfile (.vim etc.) configurations
+The rest of this readme contains information on relatively obscure changes I made to my pc to make things work over time, and as such is not meant to be well-written.
 
 # New computer
 for all of my vim files
