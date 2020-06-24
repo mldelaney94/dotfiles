@@ -17,7 +17,7 @@ Get Vundle
 
 coc, requires node.js and visual studio c++ tools, when complete, if javascript error, call :call coc#util#install()
 
-install python3 and add to path
+install python3 (64bit is important) and add to path
 install NUMpy
 
 install mingw for C and C++ 64 bit (64 bit is important)
