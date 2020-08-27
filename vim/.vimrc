@@ -126,7 +126,6 @@ set nocompatible
         let g:vimwiki_global_ext = 0 " if you change the filetype vimwiki uses, it will only read wiki files as different
 
     " ctrlp Settings
-
     " exclude dotnet build artifacts
         let g:ctrlp_custom_ignore = 'bin\|obj\|git\|DS_Store\|node_modules\|_build\|esy.lock\|_esy'
     " Tmux-navigator settings
