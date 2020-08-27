@@ -12,10 +12,14 @@ set nocompatible
     Plugin 'vim-airline/vim-airline-themes'
     Plugin 'majutsushi/tagbar'
     Plugin 'neoclide/coc.nvim', {'branch': 'release'}
-    Plugin 'scrooloose/syntastic'
     Plugin 'tpope/vim-fugitive'
     Plugin 'universal-ctags/ctags'
     Plugin 'christoomey/vim-tmux-navigator'
+    Plugin 'vimwiki/vimwiki'
+    Plugin 'chemzqm/vim-jsx-improve'
+    Plugin 'pangloss/vim-javascript'
+    Plugin 'reasonml-editor/vim-reason-plus'
+    Plugin 'ctrlpvim/ctrlp.vim'
     " All of your Plugins must be added before the following line
     call vundle#end()            " required
     filetype plugin indent on    " required
@@ -63,6 +67,7 @@ set nocompatible
     set laststatus=2 " status bar always enabled in last window
     set autoread " when a change is detected to a file outside of the VIM session, auto reload
     set spell " enables spell-checking
+    set shiftround " rounds indenting to the nearest 'shiftwidth'
 
     set hlsearch " turns search highlighting on
     set incsearch " search as characters are entered
@@ -117,6 +122,13 @@ set nocompatible
             endif
         endfunction
 
+    " VimWiki
+        let g:vimwiki_global_ext = 0 " if you change the filetype vimwiki uses, it will only read wiki files as different
+
+    " ctrlp Settings
+
+    " exclude dotnet build artifacts
+        let g:ctrlp_custom_ignore = 'bin\|obj\|git\|DS_Store\|node_modules\|_build\|esy.lock\|_esy'
     " Tmux-navigator settings
 
 " => Remappings
@@ -149,6 +161,10 @@ set nocompatible
         command! Q q
         " map W to update
         command! W w
+        " remap nn to escape in insert mode
+        inoremap <leader>i <esc>
+        " remap w to <leader>w
+        nnoremap <leader>w :w
 
     " => COC
         " Use tab for trigger completion with coc
