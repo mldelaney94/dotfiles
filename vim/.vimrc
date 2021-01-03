@@ -79,7 +79,7 @@ set nocompatible
         let g:airline#extensions#tabline#enabled=1 " applies airline style to tabs (esp. nice in gvim)
         let g:airline#extensions#branch#empty_message='NBD' " fugitive functionality: no branch detected
         let g:airline#extensions#syntastic#enabled=0 " disables syntastic integration - superfluous
-        " controls layout, a=mode, b=branch, c=filepath, x=fileType, y=encoding, z=currPosition
+        " controls layout, a=mode, b=branch, z=currposition, x=filetype, y=encoding, c=filepath
         let g:airline#extensions#default#layout=[
             \ [ 'a', 'b', 'z', 'x' ],
             \ [ 'y', 'c' ]
