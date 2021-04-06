@@ -10,10 +10,7 @@ set nocompatible
     Plugin 'morhetz/gruvbox'
     Plugin 'vim-airline/vim-airline'
     Plugin 'vim-airline/vim-airline-themes'
-    Plugin 'majutsushi/tagbar'
-    Plugin 'neoclide/coc.nvim', {'branch': 'release'}
     Plugin 'tpope/vim-fugitive'
-    Plugin 'universal-ctags/ctags'
     Plugin 'christoomey/vim-tmux-navigator'
     Plugin 'vimwiki/vimwiki'
     Plugin 'chemzqm/vim-jsx-improve'
@@ -49,7 +46,7 @@ set nocompatible
     set undofile " Maintains undo history between settings
     set undodir=~/.vim/undodir " set where to save undos
 
-    set noesckeys " In insert mode, don't check <ESC> as part of a longer function, instant <Esc> from insert mode
+    set noesckeys " In insert mode, don't check <ESC> as part of a longer function, instant escape from insert mode
 
 " => UI Config
     set number relativenumber

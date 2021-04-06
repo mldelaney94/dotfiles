@@ -1,0 +1,7 @@
+[user]
+	name = Matthew
+	email = mldelaney94@gmail.com
+[winUpdater]
+	recentlySeenVersion = 2.25.0.windows.1
+[core]
+	excludesFile = C:/Users/Matthew/.gitignore
