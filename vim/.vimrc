@@ -71,6 +71,24 @@ set nocompatible
     set hlsearch " turns search highlighting on
     set incsearch " search as characters are entered
     set ignorecase " case insensitive searching
+    
+    " Apparently this makes cursor block in command mode and line in
+    " insert mode
+    " https://invisible-island.net/xterm/ctlseqs/ctlseqs.html#h2-Functions-using-CSI-_-ordered-by-the-final-character_s_
+    " CSI Ps SP q
+    "   Set cursor style (DECSCUSR), VT520.
+    "     Ps = 0  ⇒  blinking block.
+    "     Ps = 1  ⇒  blinking block (default).
+    "     Ps = 2  ⇒  steady block.
+    "     Ps = 3  ⇒  blinking underline.
+    "     Ps = 4  ⇒  steady underline.
+    "     Ps = 5  ⇒  blinking bar, xterm.
+    "     Ps = 6  ⇒  steady bar, xterm.
+    " https://vimhelp.org/term.txt.html#t_TI
+    " t_SI start insert
+    " t_EI end insert
+    let &t_SI.="\e[6 q"
+    let &t_EI.="\e[2 q"
 
     " Airline settings
         let g:airline#extensions#tabline#enabled=1 " applies airline style to tabs (esp. nice in gvim)
