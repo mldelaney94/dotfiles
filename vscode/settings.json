@@ -40,8 +40,8 @@
             }
         ],
         "vim.useSystemClipboard": true,
-    // => GitLens
 
+    // => GitLens
         "gitlens.defaultDateFormat": "h:mma D/MM/YY",
         "gitlens.defaultDateShortFormat": "D/M/YY",
         "gitlens.defaultTimeFormat": null,
