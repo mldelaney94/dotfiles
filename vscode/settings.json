@@ -1,44 +1,76 @@
 {
     "workbench.colorTheme": "Solarized Dark",
-    "workbench.tree.indent": 4,
+    "workbench.tree.indent": 15,
     "window.zoomLevel": 1,
-
     // => Editor settings
-
-        "editor.fontSize": 22,
-        "editor.cursorBlinking": "solid",
-        "editor.wordWrap": "on",
-        "editor.wrappingIndent": "indent",
-        "editor.lineNumbers": "relative",
-
-    // => vim settings
-        "vim.easymotionMarkerFontSize": "18",
-        "vim.useSystemClipboard": true,
-        "vim.incsearch": true,
-        "vim.hlsearch": true,
-        "vim.ignorecase": true,
-        "vim.leader": ",",
-        "vim.normalModeKeyBindingsNonRecursive": [
-            {
-                "before": ["<leader>", "<space>"],
-                "commands": [":nohl"]
-            },
-            {
-                "before": ["<leader>", "e"],
-                "commands": [":tabe C:/Users/Matthew/AppData/Roaming/Code/User/settings.json"]
-            },
-            //allows for navigating wrapped lines in vim
-            {
-                "before": ["j"],
-                "after": ["g", "j"]
-            },
-            {
-                "before": ["k"],
-                "after": ["g", "k"]
-            }
-        ],
-        "vim.handleKeys": {
-            "<C-a>": true,
-            "<C-f>": true 
+    "editor.cursorBlinking": "solid",
+    "editor.fontSize": 17,
+    "editor.lineNumbers": "relative",
+    "editor.renderWhitespace": "all",
+    "editor.rulers": [
+        80
+    ],
+    "editor.wordWrap": "wordWrapColumn",
+    "editor.formatOnSave": true,
+    "editor.bracketPairColorization.enabled": true,
+    // => VIM settings
+    "vim.highlightedyank.enable": true,
+    "vim.incsearch": true,
+    "vim.hlsearch": true,
+    "vim.handleKeys": {
+        "<C-a>": true,
+        "<C-f>": true
+    },
+    "vim.leader": ",",
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "<leader>",
+                "<space>"
+            ],
+            "commands": [
+                ":nohl"
+            ]
+        },
+        {
+            //ctrl O opens you at the settings level
+            "before": [
+                "<leader>",
+                "e"
+            ],
+            "commands": [
+                ":tabe C:/Users/Matt/AppData/Roaming/Code/User/settings.json"
+            ]
+        },
+        //allows for navigating wrapped lines in vim
+        {
+            "before": [
+                "j"
+            ],
+            "after": [
+                "g",
+                "j"
+            ]
+        },
+        {
+            "before": [
+                "k"
+            ],
+            "after": [
+                "g",
+                "k"
+            ]
         }
+    ],
+    "vim.useSystemClipboard": true,
+    // => GitLens
+    "gitlens.defaultDateFormat": "h:mma D/MM/YY",
+    "gitlens.defaultDateShortFormat": "D/M/YY",
+    "gitlens.defaultTimeFormat": null,
+    // Linters
+    "less.lint.zeroUnits": "warning",
+    "less.lint.important": "warning",
+    "beautify.options": {
+        "editor.formatOnSave": true
+    }
 }
