@@ -1,7 +1,8 @@
 [user]
 	name = Matthew
 	email = mldelaney94@gmail.com
-[winUpdater]
-	recentlySeenVersion = 2.25.0.windows.1
+[alias]
+	lg = log --pretty=format:\"%C(yellow)%h%Creset - %an - %ar %C(auto)%d%Creset%n>>%s%n\"
 [core]
 	excludesFile = C:/Users/Matthew/.gitignore
+	autocrlf = true
