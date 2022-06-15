@@ -10,13 +10,10 @@ set nocompatible
     Plugin 'morhetz/gruvbox'
     Plugin 'vim-airline/vim-airline'
     Plugin 'vim-airline/vim-airline-themes'
-    Plugin 'tpope/vim-fugitive'
     Plugin 'christoomey/vim-tmux-navigator'
     Plugin 'vimwiki/vimwiki'
     Plugin 'chemzqm/vim-jsx-improve'
     Plugin 'pangloss/vim-javascript'
-    Plugin 'reasonml-editor/vim-reason-plus'
-    Plugin 'ctrlpvim/ctrlp.vim'
     " All of your Plugins must be added before the following line
     call vundle#end()            " required
     filetype plugin indent on    " required
@@ -65,13 +62,12 @@ set nocompatible
     set belloff=all " disables bell sound
     set laststatus=2 " status bar always enabled in last window
     set autoread " when a change is detected to a file outside of the VIM session, auto reload
-    set spell " enables spell-checking
     set shiftround " rounds indenting to the nearest 'shiftwidth'
 
     set hlsearch " turns search highlighting on
     set incsearch " search as characters are entered
     set ignorecase " case insensitive searching
-    
+
     " Apparently this makes cursor block in command mode and line in
     " insert mode
     " https://invisible-island.net/xterm/ctlseqs/ctlseqs.html#h2-Functions-using-CSI-_-ordered-by-the-final-character_s_
@@ -84,7 +80,7 @@ set nocompatible
     "     Ps = 4  ⇒  steady underline.
     "     Ps = 5  ⇒  blinking bar, xterm.
     "     Ps = 6  ⇒  steady bar, xterm.
-    " https://vimhelp.org/term.txt.html#t_TI
+    "https://vimhelp.org/term.txt.html#t_TI
     " t_SI start insert
     " t_EI end insert
     let &t_SI.="\e[6 q"
@@ -117,34 +113,10 @@ set nocompatible
         let g:netrw_sort_by=" name" " sorts alphabetically and by case and type, files, folders then folders with a Capital
         let g:netrw_sort_direction=" reverse"
 
-    " coc settings
-        set hidden " when there are unwritten changes to a file, hidden means it will not bug you to save them, instead saving the changes to a buffer
-        set nobackup " Some servers have issues with backup files, see #649, also means we will never accidentally upload a backup file to git
-        set nowritebackup
-        set cmdheight=2 " Better display for messages
-        set updatetime=300 " You will have bad experience for diagnostic messages when it's default 4000.
-        set shortmess+=c " don't give ins-completion-menu messages.
-        set signcolumn=yes " a column giving contextual information, like an IDE error column
-
-    " syntastic settings
-        let g:syntastic_auto_loc_list=1 " opens automatically on detection, closes when none are detected
-        let g:syntastic_check_on_open=1 " runs checks on open
-        let g:syntastic_check_on_wq=1 " checks for errors on wq
-        let g:syntastic_echo_current_error=0 " disables command window
-        let g:syntastic_enable_balloons=0 " disables balloon on mouse hover
-        " makes the height of display equal min of numErrors or 3:
-        function! SyntasticCheckHook(errors)
-            if !empty(a:errors)
-                let g:syntastic_loc_list_height=min([len(a:errors), 3])
-            endif
-        endfunction
-
     " VimWiki
         let g:vimwiki_global_ext = 0 " if you change the filetype vimwiki uses, it will only read wiki files as different
+        hi VimwikiBold term=bold cterm=bold ctermfg=Cyan guifg=#80a0ff gui=bold | " changes vimwiki *bold* to cyan, and keeps boldness
 
-    " ctrlp Settings
-    " exclude dotnet build artifacts
-        let g:ctrlp_custom_ignore = 'bin\|obj\|git\|DS_Store\|node_modules\|_build\|esy.lock\|_esy'
     " Tmux-navigator settings
 
 " => Remappings
