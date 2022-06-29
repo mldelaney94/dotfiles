@@ -8,3 +8,7 @@ PS1="${PS1/\\n\$/\\n\(\$(basename \"\$CONDA_PREFIX)\"\) \$}"
 
 #Aliases
 alias gotoanki="cd C:/Users/Matthew/AppData/Roaming/Anki2/addons21/test"
+
+#default editor
+export VISUAL=vim
+export EDITOR="$VISUAL"
