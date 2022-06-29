@@ -5,3 +5,13 @@
 	recentlySeenVersion = 2.25.0.windows.1
 [core]
 	excludesFile = C:/Users/Matthew/.gitignore
+[alias]
+	au = add -u
+	cm = commit -m
+    cb = checkout -b
+    rc = rebase --continue
+    lg = log --pretty=format:\"%C(auto)%h %C(auto)%an - %cr %d%n%s%n\"
+[pull]
+	rebase = true
+[push]
+	default = current
