@@ -4,7 +4,7 @@
     "window.zoomLevel": 1,
     // => Editor settings
     "editor.cursorBlinking": "solid",
-    "editor.fontSize": 14,
+    "editor.fontSize": 22,
     "editor.lineNumbers": "relative",
     "editor.renderWhitespace": "all",
     "editor.rulers": [
@@ -39,7 +39,7 @@
                 "e"
             ],
             "commands": [
-                ":tabe C:/Users/Matt/AppData/Roaming/Code/User/settings.json"
+                ":tabe /home/matthew/.config/Code/User/settings.json"
             ]
         },
         //allows for navigating wrapped lines in vim
@@ -68,10 +68,21 @@
     "gitlens.defaultDateShortFormat": "D/M/YY",
     "gitlens.defaultTimeFormat": null,
     // Linters
-    "less.lint.zeroUnits": "warning",
-    "less.lint.important": "warning",
     "beautify.options": {
         "editor.formatOnSave": true,
     },
-    "terminal.integrated.tabs.enabled": false
+    "terminal.integrated.tabs.enabled": false,
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true
+    },
+    "[javascriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true
+    },
+    "explorer.confirmDelete": false,
 }
