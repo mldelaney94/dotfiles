@@ -38,10 +38,17 @@ set nocompatible
     set expandtab " tabs are spaces
     set shiftwidth=4 " '>' or '<' in visual mode is 4 spaces
 
-    set clipboard=unnamed " allows copying and pasting to and from vim
+    set clipboard=unnamedplus
 
+    " Let's save undo info!
+    if !isdirectory($HOME."/.vim")
+        call mkdir($HOME."/.vim", "", 0770)
+    endif
+    if !isdirectory($HOME."/.vim/undo-dir")
+        call mkdir($HOME."/.vim/undo-dir", "", 0700)
+    endif
     set undofile " Maintains undo history between settings
-    set undodir=~/.vim/undodir " set where to save undos
+    set undodir=~/.vim/undo-dir " set where to save undos
 
     set noesckeys " In insert mode, don't check <ESC> as part of a longer function, instant escape from insert mode
 
@@ -131,6 +138,8 @@ set nocompatible
     map <leader>e :tabe ~/.vimrc<CR>| " Quick open vimrc
     map <leader>t :TagbarToggle<CR>| " Toggles tagbar
     map <leader>n :Lexplore<CR>| " Toggles load/leave netrw - Lexplore takes up whole left side
+    " remap ,x to close buffers
+    nnoremap <leader>x :bdelete<CR>
 
     " Ctrl j to move between splits.
     " Overwritten if bind is used for TMUX splits.
@@ -153,24 +162,6 @@ set nocompatible
         inoremap <leader>i <esc>
         " remap w to <leader>w
         nnoremap <leader>w :w
-
-    " => COC
-        " Use tab for trigger completion with coc
-        inoremap <silent><expr> <TAB>
-              \ pumvisible() ? "\<C-n>" :
-              \ <SID>check_back_space() ? "\<TAB>" :
-              \ coc#refresh()
-        inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-        function! s:check_back_space() abort
-          let col=col('.') - 1
-          return !col || getline('.')[col - 1]  =~# '\s'
-        endfunction
-
-        " Use K to show documentation in preview window with coc
-        nnoremap <silent> K :call <SID>show_documentation()<CR>
-        " close preview window when completion is done coc
-        autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 
     " => NETRW
         " This function allows calling shift-V to highlight files in netrw, and
