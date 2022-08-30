@@ -38,7 +38,7 @@ set nocompatible
     set expandtab " tabs are spaces
     set shiftwidth=4 " '>' or '<' in visual mode is 4 spaces
 
-    set clipboard=unnamedplus
+    set clipboard=unnamed
 
     " Let's save undo info!
     if !isdirectory($HOME."/.vim")
