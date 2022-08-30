@@ -48,7 +48,7 @@ set nocompatible
         call mkdir($HOME."/.vim/undo-dir", "", 0700)
     endif
     set undofile " Maintains undo history between settings
-    set undodir=~/.vim/undo-dir " set where to save undos
+    set undodir=~/.vim/undodir " set where to save undos
 
     set noesckeys " In insert mode, don't check <ESC> as part of a longer function, instant escape from insert mode
 
