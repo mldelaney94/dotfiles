@@ -1,88 +1,81 @@
 {
-    "workbench.colorTheme": "Solarized Dark",
-    "workbench.tree.indent": 15,
-    "window.zoomLevel": 1,
-    // => Editor settings
-    "editor.cursorBlinking": "solid",
-    "editor.fontSize": 22,
-    "editor.lineNumbers": "relative",
-    "editor.renderWhitespace": "all",
-    "editor.rulers": [
-        80
-    ],
-    "editor.wordWrap": "wordWrapColumn",
-    "editor.bracketPairColorization.enabled": true,
-    "editor.autoClosingQuotes": "never",
-    // => VIM settings
-    "vim.highlightedyank.enable": true,
-    "vim.incsearch": true,
-    "vim.hlsearch": true,
-    "vim.handleKeys": {
-        "<C-a>": true,
-        "<C-f>": true
+  "workbench.tree.indent": 15,
+  // => Editor settings
+  "editor.autoClosingQuotes": "never",
+  "editor.bracketPairColorization.enabled": true,
+  "editor.cursorBlinking": "solid",
+  "editor.fontSize": 22,
+  "editor.indentSize": "tabSize",
+  "editor.lineNumbers": "relative",
+  "editor.renderWhitespace": "all",
+  "editor.rulers": [80],
+  "editor.tabSize": 2,
+  // => VIM settings
+  "vim.highlightedyank.enable": true,
+  "vim.incsearch": true,
+  "vim.hlsearch": true,
+  "vim.handleKeys": {
+    "<C-a>": true,
+    "<C-f>": true
+  },
+  "vim.leader": ",",
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": ["<leader>", "<space>"],
+      "commands": [":nohl"]
     },
-    "vim.leader": ",",
-    "vim.normalModeKeyBindingsNonRecursive": [
-        {
-            "before": [
-                "<leader>",
-                "<space>"
-            ],
-            "commands": [
-                ":nohl"
-            ]
-        },
-        {
-            //ctrl O opens you at the settings level
-            "before": [
-                "<leader>",
-                "e"
-            ],
-            "commands": [
-                ":tabe /home/matthew/.config/Code/User/settings.json"
-            ]
-        },
-        //allows for navigating wrapped lines in vim
-        {
-            "before": [
-                "j"
-            ],
-            "after": [
-                "g",
-                "j"
-            ]
-        },
-        {
-            "before": [
-                "k"
-            ],
-            "after": [
-                "g",
-                "k"
-            ]
-        }
-    ],
-    "vim.useSystemClipboard": true,
-    // => GitLens
-    "gitlens.defaultDateFormat": "h:mma D/MM/YY",
-    "gitlens.defaultDateShortFormat": "D/M/YY",
-    "gitlens.defaultTimeFormat": null,
-    // Linters
-    "beautify.options": {
-        "editor.formatOnSave": true,
+    {
+      //ctrl O opens you at the settings level
+      "before": ["<leader>", "e"],
+      "commands": [":tabe /home/matthew/.config/Code/User/settings.json"]
     },
-    "terminal.integrated.tabs.enabled": false,
-    "[typescriptreact]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "editor.formatOnSave": true
+    //allows for navigating wrapped lines in vim
+    {
+      "before": ["j"],
+      "after": ["g", "j"]
     },
-    "[javascript]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "editor.formatOnSave": true
+    {
+      "before": ["k"],
+      "after": ["g", "k"]
     },
-    "[javascriptreact]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "editor.formatOnSave": true
+    {
+      "before": ["u"],
+      "commands": ["undo"]
     },
-    "explorer.confirmDelete": false,
+    {
+      "before": ["c-r"],
+      "commands": ["redo"]
+    }
+  ],
+  "vim.useSystemClipboard": true,
+  // => GitLens
+  "gitlens.defaultDateFormat": "h:mma D/MM/YY",
+  "gitlens.defaultDateShortFormat": "D/M/YY",
+  "gitlens.defaultTimeFormat": null,
+  // Linters
+  "terminal.integrated.tabs.enabled": false,
+  "explorer.confirmDelete": false,
+  "workbench.colorTheme": "Night Owl (No Italics)",
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false,
+  "stylelint.packageManager": "yarn",
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "window.zoomLevel": 2,
+  "debug.javascript.autoAttachFilter": "always",
+  "editor.formatOnSave": false,
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "explorer.confirmDragAndDrop": false,
+  "html.format.wrapAttributes": "force-expand-multiline",
+  "editor.minimap.enabled": false,
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "jest": {
+    "jestCommandLine": "yarn test",
+    "autoRun": "off"
+  }
 }

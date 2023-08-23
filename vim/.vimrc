@@ -38,10 +38,17 @@ set nocompatible
     set expandtab " tabs are spaces
     set shiftwidth=4 " '>' or '<' in visual mode is 4 spaces
 
-    set clipboard=unnamed
+    set clipboard=unnamedplus
 
+    " Let's save undo info!
+    if !isdirectory($HOME."/.vim")
+        call mkdir($HOME."/.vim", "", 0770)
+    endif
+    if !isdirectory($HOME."/.vim/undo-dir")
+        call mkdir($HOME."/.vim/undo-dir", "", 0700)
+    endif
     set undofile " Maintains undo history between settings
-    set undodir=~/.vim/undodir " set where to save undos
+    set undodir=~/.vim/undo-dir " set where to save undos
 
     set noesckeys " In insert mode, don't check <ESC> as part of a longer function, instant escape from insert mode
 
