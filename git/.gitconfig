@@ -7,7 +7,7 @@
 	excludesFile = C:/Users/Matthew/.gitignore
 [alias]
 	au = add -u
-	cm = commit -m
+	cm = commit -S -m
     cb = checkout -b
     rc = rebase --continue
     lg = log --pretty=format:\"%C(auto)%h %C(auto)%an - %cr %d%n%s%n\"
@@ -15,3 +15,10 @@
 	rebase = true
 [push]
 	default = current
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[user]
+	email = matthew.delaney@luxuryescapes.com
+	name = MatthewDelaneyAtLuxuryEscapes
+	signingkey = F525B104697CFC36
