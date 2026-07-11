@@ -8,8 +8,13 @@
   "editor.indentSize": "tabSize",
   "editor.lineNumbers": "relative",
   "editor.renderWhitespace": "all",
+  "editor.trimAutoWhitespace": false,
   "editor.rulers": [80],
   "editor.tabSize": 2,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "always"
+  },
+  "eslint.validate": ["yaml", "yml", "ts", "tsx"],
   // => VIM settings
   "vim.highlightedyank.enable": true,
   "vim.incsearch": true,
@@ -27,7 +32,7 @@
     {
       //ctrl O opens you at the settings level
       "before": ["<leader>", "e"],
-      "commands": [":tabe /home/matthew/.config/Code/User/settings.json"]
+      "commands": [":tabe ../../.config/Code/User/settings.json"]
     },
     //allows for navigating wrapped lines in vim
     {
@@ -45,6 +50,10 @@
     {
       "before": ["c-r"],
       "commands": ["redo"]
+    },
+    {
+      "before": ["<C-p>"],
+      "commands": ["workbench.action.quickOpen"]
     }
   ],
   "vim.useSystemClipboard": true,
@@ -55,7 +64,7 @@
   // Linters
   "terminal.integrated.tabs.enabled": false,
   "explorer.confirmDelete": false,
-  "workbench.colorTheme": "Night Owl (No Italics)",
+  "workbench.colorTheme": "Gruvbox Dark Hard",
   "css.validate": false,
   "less.validate": false,
   "scss.validate": false,
@@ -64,18 +73,12 @@
   "typescript.updateImportsOnFileMove.enabled": "always",
   "window.zoomLevel": 2,
   "debug.javascript.autoAttachFilter": "always",
-  "editor.formatOnSave": false,
-  "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
+  "editor.formatOnSave": true,
   "explorer.confirmDragAndDrop": false,
   "html.format.wrapAttributes": "force-expand-multiline",
   "editor.minimap.enabled": false,
-  "[html]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "jest": {
-    "jestCommandLine": "yarn test",
-    "autoRun": "off"
-  }
+  "workbench.preferredDarkColorTheme": "Gruvbox Dark Hard",
+  "workbench.preferredLightColorTheme": "Gruvbox Dark Hard",
+  "redhat.telemetry.enabled": true,
+  "workbench.preferredHighContrastColorTheme": "Gruvbox Dark Hard"
 }

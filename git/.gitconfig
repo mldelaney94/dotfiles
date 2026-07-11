@@ -1,24 +1,27 @@
-[user]
-	name = Matthew
-	email = mldelaney94@gmail.com
-[winUpdater]
-	recentlySeenVersion = 2.25.0.windows.1
-[core]
-	excludesFile = C:/Users/Matthew/.gitignore
 [alias]
-	au = add -u
-	cm = commit -S -m
-    cb = checkout -b
-    rc = rebase --continue
-    lg = log --pretty=format:\"%C(auto)%h %C(auto)%an - %cr %d%n%s%n\"
+  au = add -u
+  cm = commit -m
+  cb = checkout -b
+  rc = rebase --continue
+  lg = log --pretty=format:\"%C(auto)%h %C(auto)%an - %cr %d%n%s%n\"
+[core]
+  excludesFile = ~/.gitignore
 [pull]
-	rebase = true
+  # Rebase local commits onto the upstream branch instead of merging
+  rebase = true
 [push]
-	default = current
-[credential "https://github.com"]
-	helper = 
-	helper = !/usr/bin/gh auth git-credential
+  # Push only the current branch to its upstream (not all matching branches)
+  default = current
+  # On first push, create the remote branch and set upstream tracking
+  autoSetupRemote = true
 [user]
-	email = matthew.delaney@luxuryescapes.com
-	name = MatthewDelaneyAtLuxuryEscapes
-	signingkey = F525B104697CFC36
+  email =
+  name =
+  # Personal access token used for authenticated Git operations
+  password = pat_token
+[credential]
+  # Store credentials in the macOS Keychain
+  helper = osxkeychain
+[credential]
+  # Use GitHub CLI to supply credentials for GitHub remotes
+  helper = !/usr/local/gh/bin/gh auth git-credential
