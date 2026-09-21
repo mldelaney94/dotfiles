@@ -1,0 +1,10 @@
+# Extensions installed into Cursor and/or VS Code by install-macos.sh.
+# One marketplace id per line; '#' starts a comment. Every id here backs a
+# setting in settings.json, which is inert without it.
+
+vscodevim.vim                 # the vim.* settings
+jdinhlife.gruvbox             # provides the "Gruvbox Dark Hard" theme
+eamodio.gitlens               # the gitlens.* settings
+dbaeumer.vscode-eslint        # eslint.validate + source.fixAll.eslint on save
+stylelint.vscode-stylelint    # stylelint.packageManager
+redhat.vscode-yaml            # yaml/yml in eslint.validate

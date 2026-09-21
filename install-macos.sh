@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# One-time macOS install for bash, claude, git, mac-terminal, tmux, vim, and vscode.
+# One-time macOS install for bash, claude, git, mac-terminal, tmux, vim, vscode, and zsh.
 # Copies files into place (does not symlink). Refuses to run on non-macOS.
+# Assumes Apple Silicon throughout, so brew lives at /opt/homebrew.
 
 set -euo pipefail
 
@@ -9,8 +10,26 @@ if [[ "$(uname -s)" != "Darwin" ]]; then
   exit 1
 fi
 
+# uname -m reports x86_64 under Rosetta, so run this with a native bash.
+if [[ "$(uname -m)" != "arm64" ]]; then
+  echo "error: this installer assumes Apple Silicon (uname -m was: $(uname -m))" >&2
+  exit 1
+fi
+
+# Running as root leaves every installed dotfile owned by root, which makes them
+# unwritable by the account that actually uses them (vim ':w' on ~/.vimrc fails).
+if [[ "${EUID:-$(id -u)}" -eq 0 ]]; then
+  echo "error: do not run this with sudo; it would leave your dotfiles owned by root" >&2
+  echo "       re-run as yourself: ./install-macos.sh" >&2
+  exit 1
+fi
+
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BACKUP_SUFFIX=".dotfiles-backup.$(date +%Y%m%d%H%M%S)"
+
+# Overridable for apps installed outside /Applications (e.g. ~/Applications).
+CURSOR_CLI="${CURSOR_CLI:-/Applications/Cursor.app/Contents/Resources/app/bin/cursor}"
+VSCODE_CLI="${VSCODE_CLI:-/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code}"
 
 install_file() {
   local src="$1"
@@ -32,8 +51,103 @@ install_file() {
   echo "installed: $dest"
 }
 
+# Neither CLI is on PATH by default on macOS; both ship inside the app bundle.
+install_extensions() {
+  local label="$1"
+  local bundle_cli="$2"
+  local path_name="$3"
+  local list="$ROOT/vscode/extensions.txt"
+  local cli=""
+  local id ok=0 failed=0
+
+  if [[ -x "$bundle_cli" ]]; then
+    cli="$bundle_cli"
+  elif command -v "$path_name" >/dev/null 2>&1; then
+    cli="$(command -v "$path_name")"
+  else
+    echo "warning: no $label CLI found; skipping its extensions" >&2
+    return 0
+  fi
+
+  if [[ ! -f "$list" ]]; then
+    echo "error: missing extension list: $list" >&2
+    exit 1
+  fi
+
+  # A bad id or a dropped network should not abort the whole install, so each
+  # failure is reported and counted rather than propagated.
+  while IFS= read -r id || [[ -n "$id" ]]; do
+    id="${id%%#*}"
+    id="$(printf '%s' "$id" | tr -d '[:space:]')"
+    [[ -z "$id" ]] && continue
+
+    if "$cli" --install-extension "$id" --force >/dev/null 2>&1; then
+      echo "  $label extension: $id"
+      ok=$((ok + 1))
+    else
+      echo "  $label extension FAILED: $id" >&2
+      failed=$((failed + 1))
+    fi
+  done <"$list"
+
+  echo "$label extensions: $ok installed, $failed failed"
+  return 0
+}
+
 echo "Installing dotfiles from: $ROOT"
 echo
+
+# --- editor choice ---
+# Cursor is a VS Code fork with a separate config dir, and settings.json is
+# compatible between them. Asked up front so the prompt does not wait behind the
+# brew and PluginInstall steps. Override non-interactively with EDITOR_TARGET.
+install_vscode=no
+install_cursor=no
+EDITOR_CHOICE_FILE="$HOME/.config/dotfiles/editor-target"
+
+editor_target="${EDITOR_TARGET:-}"
+saved_target=""
+if [[ -f "$EDITOR_CHOICE_FILE" ]]; then
+  saved_target="$(tr -d '[:space:]' <"$EDITOR_CHOICE_FILE")"
+fi
+
+if [[ -z "$editor_target" ]]; then
+  if [[ -t 0 ]]; then
+    if [[ -n "$saved_target" ]]; then
+      printf 'Editor for settings.json + extensions? [cursor/vscode/all/none] (enter keeps %s) ' \
+        "$saved_target"
+    else
+      printf 'Editor for settings.json + extensions? [cursor/vscode/all/none] '
+    fi
+    # read fails on EOF (ctrl-d, or piped input that ran out). Under 'set -e' an
+    # unguarded read would abort the installer here with no explanation.
+    if ! read -r editor_target; then
+      editor_target=""
+      echo
+    fi
+    # A bare enter reuses the saved answer rather than re-asking every run.
+    editor_target="${editor_target:-${saved_target:-none}}"
+  else
+    editor_target="${saved_target:-none}"
+    echo "no tty: using editor target '$editor_target'"
+  fi
+fi
+
+case "$editor_target" in
+  cursor) install_cursor=yes; editor_target=cursor ;;
+  vscode | code) install_vscode=yes; editor_target=vscode ;;
+  all | both) install_cursor=yes; install_vscode=yes; editor_target=all ;;
+  none | skip | "") editor_target=none ;;
+  *)
+    echo "error: unrecognised editor '$editor_target' (want cursor/vscode/all/none)" >&2
+    exit 1
+    ;;
+esac
+
+# Persist only after validating, so a typo never overwrites a good answer.
+mkdir -p "$(dirname "$EDITOR_CHOICE_FILE")"
+printf '%s\n' "$editor_target" >"$EDITOR_CHOICE_FILE"
+echo "editor target: $editor_target (saved to $EDITOR_CHOICE_FILE)"
 
 # --- bash ---
 # macOS Terminal runs login shells, so ~/.bash_profile must source ~/.bashrc.
@@ -54,12 +168,56 @@ else
   echo "kept: $BASH_PROFILE (already sources ~/.bashrc)"
 fi
 
+# --- zsh ---
+# Unlike bash, zsh reads ~/.zshrc for interactive login shells, so Terminal.app
+# needs no ~/.zprofile glue here.
+install_file "$ROOT/zsh/.zshrc" "$HOME/.zshrc"
+
+# --- homebrew ---
+if command -v brew >/dev/null 2>&1; then
+  echo "kept: homebrew (already installed at $(brew --prefix))"
+else
+  echo "installing: homebrew"
+  NONINTERACTIVE=1 /bin/bash -c \
+    "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  # The installer does not touch this shell's PATH.
+  if [[ ! -x /opt/homebrew/bin/brew ]]; then
+    echo "error: homebrew installed but /opt/homebrew/bin/brew is missing" >&2
+    exit 1
+  fi
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+  echo "installed: homebrew ($(brew --prefix))"
+fi
+
 # --- tmux ---
+if brew list --formula tmux >/dev/null 2>&1; then
+  echo "kept: tmux (already installed via brew)"
+else
+  echo "installing: tmux"
+  brew install tmux
+fi
 install_file "$ROOT/tmux/.tmux.conf" "$HOME/.tmux.conf"
 
 # --- vim ---
 install_file "$ROOT/vim/.vimrc" "$HOME/.vimrc"
 install_file "$ROOT/vim/.gvimrc" "$HOME/.gvimrc"
+
+# Vundle must exist before .vimrc is sourced, since .vimrc calls vundle#begin().
+VUNDLE_DIR="$HOME/.vim/bundle/Vundle.vim"
+if [[ -d "$VUNDLE_DIR/.git" ]]; then
+  echo "kept: vundle (already cloned at $VUNDLE_DIR)"
+else
+  git clone https://github.com/VundleVim/Vundle.vim.git "$VUNDLE_DIR"
+  echo "installed: vundle -> $VUNDLE_DIR"
+fi
+
+# On the first run .vimrc references plugins that are still being fetched (most
+# visibly `colorscheme gruvbox`), so vim can exit non-zero without having failed.
+if vim +PluginInstall +qall; then
+  echo "installed: vim plugins (:PluginInstall)"
+else
+  echo "warning: vim exited non-zero during :PluginInstall; re-run 'vim +PluginInstall +qall'" >&2
+fi
 
 # --- git ---
 install_file "$ROOT/git/.gitconfig" "$HOME/.gitconfig"
@@ -68,10 +226,24 @@ install_file "$ROOT/git/.gitignore" "$HOME/.gitignore"
 # --- claude ---
 install_file "$ROOT/claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
 
-# --- vscode ---
-install_file \
-  "$ROOT/vscode/settings.json" \
-  "$HOME/Library/Application Support/Code/User/settings.json"
+# --- editor settings ---
+# Neither app is required to be installed; both read this path on next launch.
+# The theme and vim keybindings in settings.json still need their extensions.
+if [[ "$install_cursor" == yes ]]; then
+  install_file \
+    "$ROOT/vscode/settings.json" \
+    "$HOME/Library/Application Support/Cursor/User/settings.json"
+  install_extensions "cursor" "$CURSOR_CLI" "cursor"
+fi
+if [[ "$install_vscode" == yes ]]; then
+  install_file \
+    "$ROOT/vscode/settings.json" \
+    "$HOME/Library/Application Support/Code/User/settings.json"
+  install_extensions "vscode" "$VSCODE_CLI" "code"
+fi
+if [[ "$install_cursor" == no && "$install_vscode" == no ]]; then
+  echo "skipped: editor settings.json and extensions"
+fi
 
 # --- mac-terminal (Terminal.app profile) ---
 PROFILE_SRC="$ROOT/mac-terminal/gruvbox.terminal"

@@ -24,3 +24,18 @@ Add python.vim to C:\Users\Matthew\.vim\ftplugin
 Add global gitignore file
 touch ~/.gitignore
 git config --global core.excludesFile ~/.gitignore
+
+
+## macOS install
+`./install-macos.sh` copies the dotfiles into place (backing up anything it
+overwrites), installs Homebrew and tmux if they are missing, and clones Vundle
+before running `:PluginInstall`. It is idempotent, so re-running is safe. Assumes
+Apple Silicon, and refuses to run under sudo (that leaves dotfiles root-owned).
+
+It asks once whether to configure Cursor, VS Code, both, or neither, then writes
+`settings.json` and installs the extensions in `vscode/extensions.txt` for the
+editors chosen. The answer is saved to `~/.config/dotfiles/editor-target`, so
+later runs just need enter. Non-interactively, use `EDITOR_TARGET=cursor`.
+`CURSOR_CLI` / `VSCODE_CLI` override where the editor CLIs are looked up.
+
+## To do
