@@ -32,6 +32,11 @@ overwrites), installs Homebrew and tmux if they are missing, and clones Vundle
 before running `:PluginInstall`. It is idempotent, so re-running is safe. Assumes
 Apple Silicon, and refuses to run under sudo (that leaves dotfiles root-owned).
 
+It also enables Colemak and makes it the active layout. Colemak ships with macOS
+(layout id 12825), so nothing is downloaded; log out and back in to apply. Caps
+lock is left alone — System Settings cannot map it to backspace, and the hidutil
+alternative does not survive a reboot without a LaunchAgent.
+
 It asks once whether to configure Cursor, VS Code, both, or neither, then writes
 `settings.json` and installs the extensions in `vscode/extensions.txt` for the
 editors chosen. The answer is saved to `~/.config/dotfiles/editor-target`, so

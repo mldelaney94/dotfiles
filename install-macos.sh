@@ -245,6 +245,32 @@ if [[ "$install_cursor" == no && "$install_vscode" == no ]]; then
   echo "skipped: editor settings.json and extensions"
 fi
 
+# --- keyboard layout (colemak) ---
+# Colemak ships with macOS as layout id 12825, so there is nothing to download;
+# it only needs enabling and selecting. The id must be an <integer>: an
+# old-style plist literal writes it as a <string>, which the input system
+# ignores, hence the XML. These go through 'defaults' rather than PlistBuddy so
+# that cfprefsd, which caches this domain, does not overwrite them afterwards.
+COLEMAK_SOURCE='<dict>'
+COLEMAK_SOURCE+='<key>InputSourceKind</key><string>Keyboard Layout</string>'
+COLEMAK_SOURCE+='<key>KeyboardLayout ID</key><integer>12825</integer>'
+COLEMAK_SOURCE+='<key>KeyboardLayout Name</key><string>Colemak</string>'
+COLEMAK_SOURCE+='</dict>'
+
+if defaults read com.apple.HIToolbox AppleEnabledInputSources 2>/dev/null |
+  grep -q Colemak; then
+  echo "kept: colemak (already an enabled input source)"
+else
+  defaults write com.apple.HIToolbox AppleEnabledInputSources -array-add "$COLEMAK_SOURCE"
+  echo "installed: colemak added to input sources"
+fi
+
+# Selected is the layout actually in use; replacing the array is the point here.
+defaults write com.apple.HIToolbox AppleSelectedInputSources -array "$COLEMAK_SOURCE"
+defaults write com.apple.HIToolbox AppleCurrentKeyboardLayoutInputSourceID \
+  -string com.apple.keylayout.Colemak
+echo "installed: colemak set as the active layout"
+
 # --- mac-terminal (Terminal.app profile) ---
 PROFILE_SRC="$ROOT/mac-terminal/gruvbox.terminal"
 if [[ ! -f "$PROFILE_SRC" ]]; then
@@ -260,5 +286,6 @@ echo "installed: Terminal.app profile 'gruvbox' (imported + set as default)"
 
 echo
 echo "Done. Existing files were renamed with suffix ${BACKUP_SUFFIX}."
+echo "Log out and back in for the Colemak layout to take effect."
 echo "Fill in git user.name / user.email in ~/.gitconfig if needed."
 echo "Restart Terminal.app (or open a new window) to use the gruvbox profile."
