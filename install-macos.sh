@@ -149,6 +149,41 @@ mkdir -p "$(dirname "$EDITOR_CHOICE_FILE")"
 printf '%s\n' "$editor_target" >"$EDITOR_CHOICE_FILE"
 echo "editor target: $editor_target (saved to $EDITOR_CHOICE_FILE)"
 
+# --- git identity ---
+# Asked here, applied after ~/.gitconfig is copied (the copy would overwrite it).
+# Defaults come from the current ~/.gitconfig, read before that copy happens, so
+# a re-run only needs enter and no extra state file is required. A work machine
+# can just answer differently, or override later with 'git config --global'.
+existing_git_name="$(git config --global user.name 2>/dev/null || true)"
+existing_git_email="$(git config --global user.email 2>/dev/null || true)"
+
+ask_identity() { # ask_identity <varname> <label> <existing>
+  local __var="$1"
+  local label="$2"
+  local existing="$3"
+  local reply=""
+
+  if [[ -t 0 ]]; then
+    if [[ -n "$existing" ]]; then
+      printf 'Git %s? (enter keeps %s) ' "$label" "$existing"
+    else
+      printf 'Git %s? ' "$label"
+    fi
+    # read fails on EOF; unguarded, 'set -e' would abort the installer here.
+    if ! read -r reply; then
+      reply=""
+      echo
+    fi
+  fi
+
+  printf -v "$__var" '%s' "${reply:-$existing}"
+}
+
+git_name="${GIT_NAME:-}"
+git_email="${GIT_EMAIL:-}"
+[[ -z "$git_name" ]] && ask_identity git_name "user.name" "$existing_git_name"
+[[ -z "$git_email" ]] && ask_identity git_email "user.email" "$existing_git_email"
+
 # --- bash ---
 # macOS Terminal runs login shells, so ~/.bash_profile must source ~/.bashrc.
 install_file "$ROOT/bash/.bashrc" "$HOME/.bashrc"
@@ -223,6 +258,21 @@ fi
 install_file "$ROOT/git/.gitconfig" "$HOME/.gitconfig"
 install_file "$ROOT/git/.gitignore" "$HOME/.gitignore"
 
+# Fills the empty user.name / user.email left in the tracked .gitconfig, so the
+# real values never need committing. Must run after the copy above.
+if [[ -n "$git_name" ]]; then
+  git config --global user.name "$git_name"
+  echo "installed: git user.name = $git_name"
+else
+  echo "skipped: git user.name (left blank)"
+fi
+if [[ -n "$git_email" ]]; then
+  git config --global user.email "$git_email"
+  echo "installed: git user.email = $git_email"
+else
+  echo "skipped: git user.email (left blank)"
+fi
+
 # --- claude ---
 install_file "$ROOT/claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
 
@@ -287,5 +337,4 @@ echo "installed: Terminal.app profile 'gruvbox' (imported + set as default)"
 echo
 echo "Done. Existing files were renamed with suffix ${BACKUP_SUFFIX}."
 echo "Log out and back in for the Colemak layout to take effect."
-echo "Fill in git user.name / user.email in ~/.gitconfig if needed."
 echo "Restart Terminal.app (or open a new window) to use the gruvbox profile."

@@ -37,6 +37,12 @@ It also enables Colemak and makes it the active layout. Colemak ships with macOS
 lock is left alone — System Settings cannot map it to backspace, and the hidutil
 alternative does not survive a reboot without a LaunchAgent.
 
+It prompts for `user.name` and `user.email` and writes them into `~/.gitconfig`
+after copying it, so the real values stay out of this repo. Defaults come from
+whatever is already configured, so a re-run only needs enter; answer differently
+on a work machine, or override later with `git config --global`. Non-interactively,
+use `GIT_NAME` and `GIT_EMAIL`.
+
 It asks once whether to configure Cursor, VS Code, both, or neither, then writes
 `settings.json` and installs the extensions in `vscode/extensions.txt` for the
 editors chosen. The answer is saved to `~/.config/dotfiles/editor-target`, so

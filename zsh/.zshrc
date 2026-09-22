@@ -34,10 +34,21 @@ export EDITOR="$VISUAL"
     # vcs_info leaves this empty outside a repo, so no conditional is needed.
     zstyle ':vcs_info:git:*' formats ' %F{red}(%b)%f'
     zstyle ':vcs_info:git:*' actionformats ' %F{red}(%b|%a)%f' # e.g. (main|rebase-i)
-    precmd_functions+=(vcs_info)
+
+    # Pad the '$' only when nothing sits between it and the path, so a bare path
+    # reads '~ $' while a branch keeps its own space: '~/d/dotfiles (master)$'.
+    # Runs after vcs_info (order in precmd_functions) so the branch is current.
+    _prompt_gap() {
+      if [[ -n "$vcs_info_msg_0_" || -n "${CONDA_PREFIX:-}" ]]; then
+        _prompt_gap_str='$'
+      else
+        _prompt_gap_str=' $'
+      fi
+    }
+    precmd_functions+=(vcs_info _prompt_gap)
 
     setopt PROMPT_SUBST
-    PROMPT='%F{blue}%~%f${vcs_info_msg_0_}${CONDA_PREFIX:+ (${CONDA_PREFIX:t})}$ '
+    PROMPT='%F{blue}%~%f${vcs_info_msg_0_}${CONDA_PREFIX:+ (${CONDA_PREFIX:t})}${_prompt_gap_str} '
 
 # => nvm
     # nvm itself is sourced by whatever installed it; only react to .nvmrc if
