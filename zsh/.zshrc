@@ -28,15 +28,16 @@ export EDITOR="$VISUAL"
     # machine I never share. Layout is: <cwd> (<branch>) (<conda env>) $
     autoload -Uz vcs_info
     zstyle ':vcs_info:*' enable git
-    zstyle ':vcs_info:git:*' formats '(%b)'
-    zstyle ':vcs_info:git:*' actionformats '(%b|%a)' # e.g. (main|rebase-i)
+    # The colour and leading space live in the format, not in PROMPT. A literal
+    # '}' (as in '%F{red}') inside a ${...:+...} word closes the substitution
+    # early, which leaks a stray '}' into the prompt and breaks the colour.
+    # vcs_info leaves this empty outside a repo, so no conditional is needed.
+    zstyle ':vcs_info:git:*' formats ' %F{red}(%b)%f'
+    zstyle ':vcs_info:git:*' actionformats ' %F{red}(%b|%a)%f' # e.g. (main|rebase-i)
     precmd_functions+=(vcs_info)
 
     setopt PROMPT_SUBST
-    PROMPT='%F{blue}%~%f'
-    PROMPT+='${vcs_info_msg_0_:+ %F{red}${vcs_info_msg_0_}%f}'
-    PROMPT+='${CONDA_PREFIX:+ (${CONDA_PREFIX:t})}'
-    PROMPT+='$ '
+    PROMPT='%F{blue}%~%f${vcs_info_msg_0_}${CONDA_PREFIX:+ (${CONDA_PREFIX:t})}$ '
 
 # => nvm
     # nvm itself is sourced by whatever installed it; only react to .nvmrc if
